@@ -53,7 +53,17 @@ astro-club-website/
         └── logo.png    
 ```
 🖼️ Preview
-Screenshot 2026-04-22 000206.png
+Astro-club-website
+/Screenshot 2026-04-22 000206.png
+
+Astro-club-website
+/Screenshot 2026-04-22 000256.png
+
+Astro-club-website
+/Screenshot 2026-04-22 000404.png
+
+
+
 
 🛠️ Tech Stack<br>
 Frontend: HTML, CSS, JavaScript<br>
