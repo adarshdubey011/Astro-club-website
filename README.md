@@ -52,15 +52,18 @@ astro-club-website/
     └── images/
         └── logo.png    
 ```
-🖼️ Preview
-Astro-club-website
-/Screenshot 2026-04-22 000206.png
+🖼️ Preview<br>
+<p align="center">
+  <img src="./Screenshot 2026-04-22 000206.png" width="800" alt="Homepage Preview"/>
+</p>
 
-Astro-club-website
-/Screenshot 2026-04-22 000256.png
+<p align="center">
+  <img src="./Screenshot 2026-04-22 000256.png" width="800" alt="Gallery Preview"/>
+</p>
 
-Astro-club-website
-/Screenshot 2026-04-22 000404.png
+<p align="center">
+  <img src="./Screenshot 2026-04-22 000404.png" width="800" alt="Event Preview"/>
+</p>
 
 
 
