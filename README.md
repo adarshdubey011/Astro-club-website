@@ -4,14 +4,14 @@ A modern, multi-page astronomy club website designed with an immersive night-sky
 
 Ad Astra Per Aspera — To the stars through difficulties ✨
 
-🚀 Features
-🌌 Cosmic-themed UI with animated star background
-🧭 Multi-page structure (Events, Research, Quiz, Gallery, etc.)
-🔥 Firebase integration for dynamic data handling
-📅 Interactive event calendar
-🧠 Astronomy quiz system
-🖼️ Gallery for club activities
-📱 Responsive design for all devices
+🚀 Features<br>
+🌌 Cosmic-themed UI with animated star background<br>
+🧭 Multi-page structure (Events, Research, Quiz, Gallery, etc.)<br>
+🔥 Firebase integration for dynamic data handling<br>
+📅 Interactive event calendar<br>
+🧠 Astronomy quiz system<br>
+🖼️ Gallery for club activities<br>
+📱 Responsive design for all devices<br>
 
 ## 🗂 Folder Structure
 ```
@@ -55,17 +55,17 @@ astro-club-website/
 🖼️ Preview
 
 
-🛠️ Tech Stack
-Frontend: HTML, CSS, JavaScript
-Backend/Database: Firebase
-Design: Custom CSS animations & cosmic UI
+🛠️ Tech Stack<br>
+Frontend: HTML, CSS, JavaScript<br>
+Backend/Database: Firebase<br>
+Design: Custom CSS animations & cosmic UI<br>
 
-🔥 Firebase Setup
-Create a project on Firebase
-Replace credentials in:
-js/firebase.js
+🔥 Firebase Setup<br>
+Create a project on Firebase<br>
+Replace credentials in:<br>
+js/firebase.js<br>
 
-🤝 Contributing
+🤝 Contributing<br>
 
 Contributions are welcome!
 
