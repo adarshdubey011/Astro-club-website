@@ -1,0 +1,62 @@
+[
+  {
+    "question": "What is the closest star to our solar system?",
+    "options": ["Sirius", "Proxima Centauri", "Alpha Centauri A", "Barnard's Star"],
+    "answer": 1,
+    "explanation": "Proxima Centauri is approximately 4.24 light-years from Earth, making it the closest known star to our Sun."
+  },
+  {
+    "question": "Which planet has the most moons in our solar system?",
+    "options": ["Jupiter", "Saturn", "Uranus", "Neptune"],
+    "answer": 1,
+    "explanation": "Saturn currently holds the record with 146 confirmed moons as of 2024."
+  },
+  {
+    "question": "What is a pulsar?",
+    "options": ["A type of black hole", "A rapidly rotating neutron star", "An exploding star", "A planetary nebula"],
+    "answer": 1,
+    "explanation": "A pulsar is a highly magnetized rotating neutron star that emits beams of electromagnetic radiation."
+  },
+  {
+    "question": "The Great Red Spot on Jupiter is:",
+    "options": ["A volcanic eruption", "An impact crater", "A giant persistent storm", "A mineral deposit"],
+    "answer": 2,
+    "explanation": "The Great Red Spot is a persistent high-pressure storm system that has been observed for over 350 years."
+  },
+  {
+    "question": "What is the Chandrasekhar Limit?",
+    "options": ["The speed of light in a vacuum", "Maximum mass of a white dwarf (~1.4 solar masses)", "Minimum temperature for nuclear fusion", "Distance to the edge of the observable universe"],
+    "answer": 1,
+    "explanation": "The Chandrasekhar Limit (~1.4 solar masses) is the maximum mass a white dwarf star can have before it undergoes gravitational collapse."
+  },
+  {
+    "question": "Which space mission first photographed the far side of the Moon?",
+    "options": ["Luna 3", "Apollo 8", "Surveyor 1", "Zond 3"],
+    "answer": 0,
+    "explanation": "Luna 3 (Soviet Union) took the first photographs of the far side of the Moon in 1959."
+  },
+  {
+    "question": "What is the approximate age of the universe?",
+    "options": ["4.5 billion years", "10 billion years", "13.8 billion years", "20 billion years"],
+    "answer": 2,
+    "explanation": "Based on measurements of the cosmic microwave background and expansion rate, the universe is approximately 13.8 billion years old."
+  },
+  {
+    "question": "What phenomenon causes a star to appear to twinkle?",
+    "options": ["The star's own pulsation", "Atmospheric refraction", "Doppler shift", "Gravitational lensing"],
+    "answer": 1,
+    "explanation": "Stars appear to twinkle due to atmospheric scintillation — refraction of starlight by turbulent layers in Earth's atmosphere."
+  },
+  {
+    "question": "The cosmic microwave background radiation is primarily evidence for:",
+    "options": ["Dark matter", "The Big Bang", "Black hole mergers", "Stellar nucleosynthesis"],
+    "answer": 1,
+    "explanation": "The CMB is thermal radiation left over from the hot early universe, about 380,000 years after the Big Bang."
+  },
+  {
+    "question": "What is a Lagrange point?",
+    "options": ["The center of a galaxy", "A position where gravitational forces balance", "The event horizon of a black hole", "A type of stellar classification"],
+    "answer": 1,
+    "explanation": "Lagrange points are positions in space where the gravitational forces of two large bodies and the centrifugal force balance each other, useful for placing space telescopes."
+  }
+]

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Join — Astro Club BIT Durg</title>
+  <link rel="icon" href="assets/images/logo.png" type="image/png">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/join.css">
+  <link rel="stylesheet" href="css/gravity.css">
+</head>
+<body>
+<canvas id="cosmos-canvas"></canvas>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="assets/images/logo.png" alt="Logo">
+    <div class="nav-logo-text">Astro Club<span>BIT Durg</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="research.html">Research</a></li>
+    <li><a href="quiz.html">Quiz</a></li>
+    <li><a href="calendar.html">Calendar</a></li>
+    <li><a href="join.html" class="nav-join-btn active">Join Club</a></li>
+  </ul>
+  <div class="nav-hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="page-content">
+  <section style="padding:0 5%;">
+    <div class="join-layout">
+
+      
+      <div class="join-info reveal">
+        <div class="section-label">Membership</div>
+        <h1>Join the <span>Cosmic</span><br>Community</h1>
+        <p>Become a member of Astro Club BIT Durg and gain access to stargazing sessions, workshops, research opportunities, and our annual fest — Aayam.</p>
+
+        <ul class="join-perks">
+          <li class="join-perk">Access to all club stargazing sessions and telescope training</li>
+          <li class="join-perk">Participation in workshops, guest lectures, and competitions</li>
+          <li class="join-perk">Collaborate on published research papers</li>
+          <li class="join-perk">Free entry + priority registration for Aayam Fest</li>
+          <li class="join-perk">Digital membership card and certificate of participation</li>
+          <li class="join-perk">Access to our private resource library and archives</li>
+        </ul>
+
+        <div class="join-fee">
+          <span class="currency">₹</span>
+          <span class="amount">250</span>
+          <span class="period">/ year</span>
+        </div>
+
+        <div style="margin-top:48px; padding:28px; background:rgba(74,158,255,0.04); border:1px solid rgba(74,158,255,0.1); border-radius:6px;">
+          <p style="font-size:0.82rem; color:var(--star-dim); line-height:1.8;">
+            <span style="color:var(--pink-nova); font-weight:600;">★ Note:</span>
+            After form submission, you'll be redirected to complete the ₹250 payment via our secure gateway. Your membership is confirmed upon successful payment.
+          </p>
+        </div>
+      </div>
+
+      
+      <div class="join-form-container reveal anim-delay-2">
+        <h2>🚀 Register Now</h2>
+
+        <form id="join-form" novalidate>
+          <div class="form-group">
+            <label for="name">Full Name *</label>
+            <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email">Email *</label>
+              <input type="email" id="email" name="email" placeholder="you@example.com" required>
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone *</label>
+              <input type="tel" id="phone" name="phone" placeholder="+91 XXXXX XXXXX" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="college">College / Institution *</label>
+            <input type="text" id="college" name="college" placeholder="BIT Durg / Other" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="branch">Branch</label>
+              <select id="branch" name="branch">
+                <option value="">Select branch</option>
+                <option>Computer Science</option>
+                <option>Electronics & Communication</option>
+                <option>Mechanical Engineering</option>
+                <option>Civil Engineering</option>
+                <option>Electrical Engineering</option>
+                <option>Information Technology</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="year">Year</label>
+              <select id="year" name="year">
+                <option value="">Select year</option>
+                <option>1st Year</option>
+                <option>2nd Year</option>
+                <option>3rd Year</option>
+                <option>4th Year</option>
+                <option>Alumni</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="interest">Why do you want to join?</label>
+            <input type="text" id="interest" name="interest" placeholder="Your interest in astronomy...">
+          </div>
+
+          <button type="submit" class="submit-btn" id="submit-btn">
+            Complete Registration &amp; Pay ₹250 →
+          </button>
+          <p class="form-note">Secure payment powered by Razorpay. Your data is safe with us.</p>
+        </form>
+
+        <div class="success-message" id="success-message">
+          <div class="check">🌟</div>
+          <h3>Registration Successful!</h3>
+          <p>Welcome to the cosmos, explorer. Redirecting you to complete the ₹250 payment to activate your membership...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script src="js/main.js"></script>
+<script type="module" src="js/join.js"></script>
+  <script src="js/gravity.js"></script>
+</body>
+</html>

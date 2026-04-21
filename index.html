@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Astro Club BIT Durg — Explore the Cosmos</title>
+  <meta name="description" content="Astro Club BIT Durg — Central India's most passionate community of sky-watchers since 2013. 800+ members.">
+  <link rel="icon" href="assets/images/logo.png" type="image/png">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/gravity.css">
+  <style>
+  
+    .about-viewer {
+      position:relative; max-width:400px; aspect-ratio:4/5;
+      border-radius:var(--radius-md); overflow:hidden;
+      border:1px solid rgba(61,142,255,0.18);
+      box-shadow:0 24px 60px rgba(0,0,0,0.5),0 0 40px rgba(61,142,255,0.06);
+      background:var(--nebula-dark); flex-shrink:0;
+    }
+    .viewer-slide {
+      position:absolute; inset:0; background-size:cover; background-position:center;
+      opacity:0; transition:opacity 1.2s cubic-bezier(0.4,0,0.2,1),transform 6s cubic-bezier(0.4,0,0.2,1);
+      transform:scale(1.04);
+    }
+    .viewer-slide.active { opacity:1; transform:scale(1.0); }
+    .viewer-slide.prev   { opacity:0; transform:scale(1.06); }
+    .viewer-overlay {
+      position:absolute; inset:0; z-index:2;
+      background:linear-gradient(to top,rgba(2,4,9,0.85) 0%,rgba(2,4,9,0.3) 40%,rgba(2,4,9,0.1) 70%,transparent 100%);
+    }
+    .viewer-caption { position:absolute; bottom:0; left:0; right:0; z-index:3; padding:20px 20px 22px; }
+    .viewer-caption-label {
+      font-size:0.65rem; letter-spacing:0.25em; text-transform:uppercase;
+      color:var(--pink-soft); margin-bottom:4px;
+      display:flex; align-items:center; gap:6px;
+    }
+    .viewer-caption-label::before { content:''; width:14px; height:1px; background:var(--pink-nova); flex-shrink:0; }
+    .viewer-caption-title { font-family:var(--font-display); font-size:0.95rem; font-weight:600; color:var(--star-white); line-height:1.3; }
+    .viewer-dots { position:absolute; top:16px; right:16px; z-index:3; display:flex; flex-direction:column; gap:6px; }
+    .viewer-dot {
+      width:5px; height:5px; border-radius:50%;
+      background:rgba(255,255,255,0.25); cursor:pointer; transition:all 0.3s ease;
+    }
+    .viewer-dot.active { background:var(--glow-cyan); box-shadow:0 0 8px var(--glow-cyan); height:14px; border-radius:3px; }
+    .viewer-progress { position:absolute; bottom:0; left:0; right:0; z-index:4; height:2px; background:rgba(255,255,255,0.08); }
+    .viewer-progress-fill { height:100%; background:linear-gradient(90deg,var(--glow-cyan),var(--pink-nova)); width:0%; transition:width linear; }
+    .viewer-corner { position:absolute; width:18px; height:18px; border-color:var(--glow-cyan); border-style:solid; z-index:4; }
+    .viewer-corner.tl { top:-1px; left:-1px; border-width:2px 0 0 2px; }
+    .viewer-corner.tr { top:-1px; right:-1px; border-width:2px 2px 0 0; }
+    .viewer-corner.bl { bottom:-1px; left:-1px; border-width:0 0 2px 2px; }
+    .viewer-corner.br { bottom:-1px; right:-1px; border-width:0 2px 2px 0; }
+    .viewer-badge {
+      position:absolute; bottom:32px; right:-28px; z-index:5;
+      padding:14px 18px; text-align:center;
+      background:rgba(8,15,30,0.96); border:1px solid rgba(232,121,168,0.22);
+      border-radius:var(--radius-md); backdrop-filter:blur(16px);
+    }
+    .viewer-badge .num {
+      font-family:var(--font-display); font-size:1.9rem; font-weight:700;
+      color:var(--pink-nova); text-shadow:0 0 18px rgba(232,121,168,0.5); line-height:1;
+    }
+    .viewer-badge .lbl { font-size:0.65rem; letter-spacing:0.14em; color:var(--star-dim); text-transform:uppercase; }
+    .viewer-gallery-link {
+      position:absolute; top:14px; left:14px; z-index:4;
+      display:flex; align-items:center; gap:6px;
+      font-size:0.7rem; letter-spacing:0.16em; text-transform:uppercase;
+      color:rgba(255,255,255,0.5); text-decoration:none;
+      background:rgba(2,4,9,0.5); backdrop-filter:blur(8px);
+      padding:5px 10px; border-radius:var(--radius-full);
+      border:1px solid rgba(255,255,255,0.1); transition:all 0.3s ease;
+      opacity:0; pointer-events:none;
+    }
+    .about-viewer:hover .viewer-gallery-link { opacity:1; pointer-events:auto; }
+    .viewer-gallery-link:hover { color:var(--star-white); background:rgba(61,142,255,0.2); }
+    @media(max-width:1200px){ .viewer-badge{ right:0; } }
+    @media(max-width:960px) { .about-viewer{ max-width:100%; } .viewer-badge{ position:static; margin-top:14px; display:inline-block; } }
+  </style>
+</head>
+<body>
+
+<canvas id="cosmos-canvas"></canvas>
+
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="assets/images/logo.png" alt="Astro Club" onerror="this.style.display='none'">
+    <div class="nav-logo-text">Astro Club<span>BIT Durg</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="research.html">Research</a></li>
+    <li><a href="quiz.html">Quiz</a></li>
+    <li><a href="calendar.html">Calendar</a></li>
+    <li><a href="join.html" class="nav-join-btn">Join Club</a></li>
+  </ul>
+  
+  <div class="nav-hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="page-content">
+
+
+<section class="hero" id="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-badge"><span class="hero-badge-dot"></span>Est. 2013 &nbsp;·&nbsp; BIT Durg, Chhattisgarh</div>
+      <h1 class="hero-title">Explore The<br><span class="accent-line">Infinite Cosmos</span></h1>
+      <p class="hero-sub">Where curiosity meets the stars.</p>
+      <p class="hero-desc">Astro Club BIT Durg is Central India's most passionate community of stargazers, scientists, and dreamers. Founded in 2013, we dismantle myths, champion scientific thinking, and bring the universe closer to everyone.</p>
+      <div class="hero-actions">
+        <a href="join.html" class="btn-primary">✦ Join Now — ₹250</a>
+        <a href="#about"    class="btn-ghost">Discover More ↓</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item"><div class="stat-number" data-count="800" data-suffix="+">0</div><div class="stat-label">Members</div></div>
+        <div class="stat-item"><div class="stat-number pink" data-count="11" data-suffix="">0</div><div class="stat-label">Years Active</div></div>
+        <div class="stat-item"><div class="stat-number" data-count="50" data-suffix="+">0</div><div class="stat-label">Events Hosted</div></div>
+        <div class="stat-item"><div class="stat-number pink" data-count="5" data-suffix="">0</div><div class="stat-label">Papers Published</div></div>
+      </div>
+    </div>
+    <div class="hero-visual" id="hero-visual">
+      <div class="hero-nebula"></div>
+      <div class="orbit-ring orbit-ring-1"></div>
+      <div class="orbit-ring orbit-ring-2"></div>
+      <div class="orbit-ring orbit-ring-3"></div>
+      <div class="orbit-dot orbit-dot-1"></div>
+      <div class="orbit-dot orbit-dot-2"></div>
+      <div class="moon-container" id="moon">
+        <div class="moon-pulse-ring"></div>
+        <div class="moon-pulse-ring"></div>
+        <div class="moon-pulse-ring"></div>
+        <div class="moon"></div>
+      </div>
+      <div class="mini-planet" style="width:26px;height:26px;bottom:100px;right:70px;background:radial-gradient(circle at 35% 35%,#f0a5c8,#6b2d4e);box-shadow:0 0 14px rgba(232,121,168,0.5);animation-delay:1.2s;"></div>
+      <div class="mini-planet" style="width:14px;height:14px;top:90px;left:48px;background:radial-gradient(circle at 38% 38%,#00d4ff,#1a3a6e);box-shadow:0 0 10px rgba(0,212,255,0.5);animation-delay:2.6s;"></div>
+    </div>
+  </div>
+  <div class="scroll-cue"><span>Scroll</span><div class="scroll-cue-line"></div></div>
+</section>
+
+<div class="glass-divider"></div>
+
+
+<section class="about-section" id="about">
+  <div class="about-grid">
+
+    
+    <div class="reveal" style="position:relative;max-width:400px;">
+      <div class="about-viewer" id="about-viewer">
+        <div class="viewer-overlay"></div>
+        <div class="viewer-corner tl"></div>
+        <div class="viewer-corner tr"></div>
+        <div class="viewer-corner bl"></div>
+        <div class="viewer-corner br"></div>
+        <div class="viewer-dots" id="viewer-dots"></div>
+        <div class="viewer-caption">
+          <div class="viewer-caption-label" id="viewer-label">Observation</div>
+          <div class="viewer-caption-title" id="viewer-title">The cosmos awaits</div>
+        </div>
+        <div class="viewer-progress"><div class="viewer-progress-fill" id="viewer-progress"></div></div>
+        <a href="gallery.html" class="viewer-gallery-link">📷 View Gallery</a>
+      </div>
+      <div class="viewer-badge"><div class="num">800+</div><div class="lbl">Members</div></div>
+    </div>
+
+    
+    <div class="reveal anim-delay-2">
+      <div class="section-label">Who We Are</div>
+      <h2 class="section-title">A Decade of<br><span class="pink-glow">Star Stories</span></h2>
+      <p class="section-desc" style="margin-bottom:16px;">Founded in 2013, Astro Club BIT Durg grew from a handful of students who refused to stop looking up. Today we are Central India's most active student astronomy community.</p>
+      <p class="section-desc" style="margin-bottom:28px;">We replace superstition with science, fear with wonder, and ignorance with curiosity. The universe belongs to everyone who dares to ask.</p>
+      <div class="timeline">
+        <div class="tl-item"><span class="tl-dot cyan"></span><span class="tl-year">2013</span>Founded with 12 founding members</div>
+        <div class="tl-item"><span class="tl-dot pink"></span><span class="tl-year">2016</span>First Aayam Annual Fest launched</div>
+        <div class="tl-item"><span class="tl-dot purple"></span><span class="tl-year">2020</span>Crossed 500-member milestone</div>
+        <div class="tl-item"><span class="tl-dot cyan"></span><span class="tl-year">2024</span>800+ members, 5 research papers published</div>
+      </div>
+     
+    </div>
+  </div>
+</section>
+
+<div class="glass-divider"></div>
+
+
+<section class="activities-section" id="activities">
+  <div style="text-align:center;margin-bottom:52px;">
+    <div class="section-label reveal" style="justify-content:center;">What We Do</div>
+    <h2 class="section-title reveal" style="text-align:center;">Our <span class="blue-glow">Activities</span></h2>
+    <p class="section-desc reveal" style="margin:0 auto;text-align:center;">From telescope handling to ISRO guest lectures — every activity ignites curiosity.</p>
+  </div>
+  <div class="activities-grid">
+    <div class="activity-card glass-card reveal hover-glow"><h3 class="activity-title">Stargazing Sessions</h3><p class="activity-desc">Regular nighttime events exploring constellations, planets, and deep-sky objects under Chhattisgarh's open sky.</p></div>
+    <div class="activity-card glass-card reveal anim-delay-1 hover-glow"><h3 class="activity-title">Telescope Handling</h3><p class="activity-desc">Practical workshops on assembling, aligning, and using telescopes — from refractors to our club Dobsonian reflector.</p></div>
+    <div class="activity-card glass-card reveal anim-delay-2 hover-pink-glow pink-top" style="border-color:rgba(232,121,168,0.12);"><h3 class="activity-title">Workshops & Labs</h3><p class="activity-desc">Astrophotography, spectroscopy, radio astronomy, and computational tools like Stellarium and FITS viewers.</p></div>
+    <div class="activity-card glass-card reveal hover-pink-glow pink-top" style="border-color:rgba(232,121,168,0.12);"><h3 class="activity-title">Guest Lectures</h3><p class="activity-desc">Talks by ISRO scientists, professors, and astronomers bringing the frontiers of space science to campus.</p></div>
+    <div class="activity-card glass-card reveal anim-delay-1 hover-glow"><h3 class="activity-title">School Outreach</h3><p class="activity-desc">We carry telescopes to local schools, inspiring the next generation and breaking superstitions through direct observation.</p></div>
+    <div class="activity-card glass-card reveal anim-delay-2 hover-glow purple-top" style="border-color:rgba(155,111,255,0.1);"><h3 class="activity-title">Research Projects</h3><p class="activity-desc">Student-led observational research published in journals and presented at national-level science fests.</p></div>
+  </div>
+</section>
+
+<div class="glass-divider"></div>
+
+
+<section class="events-section" id="events">
+  <div class="events-header">
+    <div><div class="section-label">Calendar</div><h2 class="section-title reveal">Our <span class="pink-glow">Events</span></h2></div>
+    <a href="calendar.html" class="btn-ghost reveal">View Full Calendar →</a>
+  </div>
+  <div class="aayam-card reveal">
+    <div>
+      <div class="aayam-eyebrow">✦ Flagship Annual Fest</div>
+      <h3 class="aayam-title">AAYAM</h3>
+      <p class="aayam-desc">Our annual astronomy festival — featuring competitions, telescope marathons, astrophotography contests, quiz battles, and expert lectures drawing participants from across Chhattisgarh.</p>
+      <a href="join.html" class="btn-primary" style="margin-top:4px;">🚀 Register for Next Aayam</a>
+    </div>
+    <div class="aayam-visual"></div>
+  </div>
+  <div class="events-mini-grid">
+    <div class="event-mini glass-card reveal hover-glow"><h4 class="event-mini-title">Meteor Shower Nights</h4><p class="event-mini-desc">Annual Perseid &amp; Leonid watch parties with guided observation and astrophotography sessions.</p></div>
+    <div class="event-mini glass-card reveal anim-delay-1 hover-pink-glow" style="border-color:rgba(232,121,168,0.12);"><h4 class="event-mini-title">Astronomy Olympiad</h4><p class="event-mini-desc">Inter-college quiz and problem-solving competition held every semester.</p></div>
+    <div class="event-mini glass-card reveal anim-delay-2 hover-glow"><h4 class="event-mini-title">Astrophotography Contest</h4><p class="event-mini-desc">Submit your best night-sky shots, judged by professional astrophotographers.</p></div>
+  </div>
+</section>
+
+<div class="glass-divider"></div>
+
+
+<section class="quote-section">
+  <div class="reveal">
+    <p class="quote-text">"The cosmos is within us. We are made of star-stuff. We are a way for the universe to know itself."</p>
+    <p class="quote-author">— Carl Sagan</p>
+  </div>
+</section>
+
+<div class="glass-divider"></div>
+
+
+<section class="explore-section" id="explore">
+  <div class="section-label reveal" style="justify-content:center;">Navigate</div>
+  <h2 class="section-title reveal" style="text-align:center;">Explore <span class="blue-glow">Everything</span></h2>
+  <p class="section-desc reveal" style="margin:0 auto 0;text-align:center;">Your launchpad to all things Astro Club.</p>
+  <div class="explore-grid">
+    <a href="gallery.html" class="explore-card glass-card reveal hover-pink-glow" style="border-color:rgba(232,121,168,0.13);"><div class="explore-title">Gallery</div><div class="explore-sub">Photos &amp; memories</div></a>
+    <a href="research.html" class="explore-card glass-card reveal anim-delay-1 hover-glow"><div class="explore-title">Research</div><div class="explore-sub">Papers &amp; publications</div></a>
+    <a href="quiz.html" class="explore-card glass-card reveal anim-delay-2 hover-pink-glow" style="border-color:rgba(155,111,255,0.13);"><div class="explore-title">Space Quiz</div><div class="explore-sub">Test your knowledge</div></a>
+    <a href="calendar.html" class="explore-card glass-card reveal anim-delay-3 hover-glow"><div class="explore-title">Calendar</div><div class="explore-sub">Astronomy events</div></a>
+    <a href="join.html" class="explore-card glass-card reveal anim-delay-4 hover-pink-glow" style="border-color:rgba(232,121,168,0.28);background:rgba(232,121,168,0.04);"><span class="explore-icon" style="animation:pinkGlowPulse 2.5s ease-in-out infinite;">✦</span><div class="explore-title" style="color:var(--pink-soft);">Join Us</div><div class="explore-sub">Membership ₹250/yr</div></a>
+  </div>
+</section>
+
+<div class="glass-divider"></div>
+
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div style="font-family:var(--font-display);font-size:1.15rem;font-weight:700;color:var(--star-white);">Astro Club <span style="color:var(--glow-cyan);">BIT Durg</span></div>
+      <p>Bridging the gap between humanity and the cosmos since 2013. Promoting scientific temper, one star at a time. Based in Durg, Chhattisgarh.</p>
+      <div class="footer-socials">
+        <a href="https://www.instagram.com/the_astro_club?igsh=dmJrODQ0Zmtoc3Fp" class="social-btn" title="Instagram">📷</a>
+        <a href="https://www.linkedin.com/company/theastroclub?originalSubdomain=in" class="social-btn" title="LinkedIn">💼</a>
+        <a href="https://www.instagram.com/the_astro_club?igsh=dmJrODQ0Zmtoc3Fp" class="social-btn" title="YouTube">▶️</a>
+        <a href="mailto:astroclub@bit.edu.in" class="social-btn" title="Email">✉️</a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Explore</h4><ul><li><a href="gallery.html">Gallery</a></li><li><a href="research.html">Research Papers</a></li><li><a href="quiz.html">Space Quiz</a></li><li><a href="calendar.html">Events Calendar</a></li></ul></div>
+    <div class="footer-col"><h4>Club</h4><ul><li><a href="#about">About Us</a></li><li><a href="#activities">Activities</a></li><li><a href="#events">Aayam Fest</a></li><li><a href="join.html">Join ₹250/year</a></li></ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul><li><a href="https://www.instagram.com/the_astro_club?igsh=dmJrODQ0Zmtoc3Fp">Instagram</a></li><li><a href="https://www.linkedin.com/company/theastroclub?originalSubdomain=in">LinkedIn</a></li><li><a href="https://youtube.com/@theastroclub9900?si=75P1WlAn_3cNs1wy">YouTube</a></li><li><a href="mailto:astroclub@bit.edu.in">Email Us</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2024 Astro Club BIT Durg. Made with 🌟 by the stars.</p>
+    <div class="footer-stars">✦ &nbsp;AD ASTRA PER ASPERA&nbsp; ✦</div>
+  </div>
+</footer>
+
+</div>
+
+<script src="js/main.js"></script>
+
+<script>
+(function AboutViewer() {
+  var SLIDES = [
+    { url:'wg', label:'Deep Space',      title:'Nebulae & Star Clusters' },
+    { url:'assets/images/img4.jpeg', label:'Night Sky',       title:'Milky Way over the Horizon' },
+    { url:'assets/images/img1.jpeg', label:'Observation',     title:'Telescope Stargazing Session' },
+    { url:'assets/images/img2.jpeg', label:'Planetary',       title:'Earth from Outer Space' },
+    { url:'assets/images/img1.jpeg', label:'Landscape',       title:'Stars above the Mountains' },
+    { url:'assets/images/img5.jpeg', label:'Astrophotography',title:'Galactic Core Captured' },
+    { url:'https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?w=800&q=85', label:'Lunar',           title:'Full Moon in Detail' },
+    { url:'https://images.unsplash.com/photo-1610296669228-602fa827fc1f?w=800&q=85', label:'Solar System',    title:"Saturn's Iconic Rings" }
+  ];
+  var INTERVAL = 4500, current = 0, timer = null;
+  var viewer = document.getElementById('about-viewer');
+  var dotsEl = document.getElementById('viewer-dots');
+  var labelEl= document.getElementById('viewer-label');
+  var titleEl= document.getElementById('viewer-title');
+  var progEl = document.getElementById('viewer-progress');
+  if (!viewer) return;
+
+  
+  var slideEls = SLIDES.map(function(s, i) {
+    var el = document.createElement('div');
+    el.className = 'viewer-slide' + (i === 0 ? ' active' : '');
+    el.style.backgroundImage = "url('" + s.url + "')";
+    viewer.insertBefore(el, viewer.querySelector('.viewer-overlay'));
+    return el;
+  });
+
+  
+  var dotEls = SLIDES.map(function(_, i) {
+    var d = document.createElement('div');
+    d.className = 'viewer-dot' + (i === 0 ? ' active' : '');
+    d.addEventListener('click', function() { goTo(i); resetTimer(); });
+    dotsEl.appendChild(d);
+    return d;
+  });
+
+  function updateCaption(idx) {
+    if (!labelEl || !titleEl) return;
+    labelEl.style.opacity = '0'; titleEl.style.opacity = '0';
+    setTimeout(function() {
+      labelEl.textContent = SLIDES[idx].label;
+      titleEl.textContent = SLIDES[idx].title;
+      labelEl.style.transition = 'opacity 0.5s ease'; titleEl.style.transition = 'opacity 0.5s ease';
+      labelEl.style.opacity = '1'; titleEl.style.opacity = '1';
+    }, 300);
+  }
+
+  function goTo(idx) {
+    if (idx === current) return;
+    slideEls[current].classList.remove('active'); slideEls[current].classList.add('prev');
+    dotEls[current].classList.remove('active');
+    var prev = current;
+    setTimeout(function() { slideEls[prev].classList.remove('prev'); }, 1300);
+    current = ((idx % SLIDES.length) + SLIDES.length) % SLIDES.length;
+    slideEls[current].classList.add('active'); dotEls[current].classList.add('active');
+    updateCaption(current); startProgress();
+  }
+
+  function startProgress() {
+    if (!progEl) return;
+    progEl.style.transition = 'none'; progEl.style.width = '0%';
+    void progEl.offsetWidth;
+    progEl.style.transition = 'width ' + INTERVAL + 'ms linear'; progEl.style.width = '100%';
+  }
+
+  function resetTimer() {
+    clearInterval(timer);
+    timer = setInterval(function() { goTo(current + 1); }, INTERVAL);
+    startProgress();
+  }
+
+  viewer.addEventListener('mouseenter', function() { clearInterval(timer); if (progEl) progEl.style.transition = 'none'; });
+  viewer.addEventListener('mouseleave', resetTimer);
+
+  var tx = 0;
+  viewer.addEventListener('touchstart', function(e) { tx = e.touches[0].clientX; }, { passive: true });
+  viewer.addEventListener('touchend', function(e) {
+    var diff = tx - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) { goTo(diff > 0 ? current + 1 : current - 1); resetTimer(); }
+  });
+
+  updateCaption(0); resetTimer();
+
+  var io = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) resetTimer(); else clearInterval(timer); });
+  }, { threshold: 0.3 });
+  io.observe(viewer);
+})();
+</script>
+
+<script src="js/gravity.js"></script>
+
+</body>
+</html>
